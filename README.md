@@ -93,7 +93,11 @@ calls: the OMML translator runs inside the pane.
 for **MiniMath → Equation** on the Insert tab.
 - **Windows:** the installer registers the add-in for the current user under
   `HKCU\Software\Microsoft\Office\16.0\WEF\Developer` (the same key Office's
-  sideloading tool uses). The uninstaller removes it.
+  sideloading tool uses). Registration only lists the add-in, so the installer
+  then opens `MiniMath dans Word.docx`, a document that references the add-in;
+  this makes Word start it once and keep its ribbon button. The Start menu
+  shortcut **MiniMath - Activer dans Word** opens it again. The uninstaller
+  removes the registration and the shortcut.
 - **macOS:** at launch, the app copies its manifest to Word's add-in folder,
   `~/Library/Containers/com.microsoft.Word/Data/Documents/wef/`. macOS may ask
   to let MiniMath access Word's data. If the button doesn't appear, open

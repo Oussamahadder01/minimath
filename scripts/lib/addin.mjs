@@ -13,8 +13,19 @@
 import { copyFile, cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { PROJECT_ROOT } from "../../src/config.mjs";
+import { wordActivationDocx } from "./word-activation.mjs";
 
 const TEMPLATE_ORIGIN = "https://localhost:5179";
+/** File name referenced by src-tauri/windows/hooks.nsh and tauri.windows.conf.json. */
+export const ACTIVATION_DOCUMENT = "MiniMath dans Word.docx";
+
+/** The add-in's <Id> and <Version>, which the activation document must reference. */
+export function manifestIdentity(manifest) {
+  const id = /<Id>([^<]+)<\/Id>/.exec(manifest)?.[1];
+  const version = /<Version>([^<]+)<\/Version>/.exec(manifest)?.[1];
+  if (!id || !version) throw new Error("Manifest is missing <Id> or <Version>");
+  return { id, version };
+}
 
 export function parseAddinUrl(raw) {
   let url;
@@ -44,6 +55,8 @@ export async function buildAddin({ addinUrl = process.env.MINIMATH_ADDIN_URL ?? 
   const bundleDir = join(PROJECT_ROOT, "src-tauri", "addin");
   await mkdir(bundleDir, { recursive: true });
   await writeFile(join(bundleDir, "manifest.xml"), manifest);
+  // Opened once by the Windows installer so Word starts the add-in.
+  await writeFile(join(bundleDir, ACTIVATION_DOCUMENT), wordActivationDocx(manifestIdentity(manifest)));
 
   if (site) {
     const out = join(PROJECT_ROOT, "dist", "addin-site");

@@ -8,6 +8,7 @@ import { translateMathML, validateRuleSet } from "../src/shared/translator.mjs";
 import { generateProductKey, maskProductKey, normalizeProductKey } from "../src/license/product-key.mjs";
 import { signToken, verifyToken } from "../src/license/token.mjs";
 import { generateKeyPairSync } from "node:crypto";
+import { inflateRawSync } from "node:zlib";
 
 const rules = (id) => JSON.parse(readFileSync(new URL(`../src/shared/translators/${id}.json`, import.meta.url), "utf8"));
 const LATEX = rules("latex");
@@ -100,6 +101,57 @@ test("Word add-in manifest is rendered for its published address", async () => {
   const id = textContent(parsed.children.find((c) => c.name === "Id"));
   assert.ok(hooks.includes(`"${id}"`), "installer hook registers the manifest's add-in Id");
   assert.throws(() => renderManifest("<OfficeApp/>", target), /template AppDomain/);
+});
+
+/** Read a ZIP archive's entries (deflate/stored) via its central directory. */
+function readZip(buffer) {
+  const end = buffer.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+  const count = buffer.readUInt16LE(end + 10);
+  let pointer = buffer.readUInt32LE(end + 16);
+  const entries = new Map();
+  for (let i = 0; i < count; i++) {
+    assert.equal(buffer.readUInt32LE(pointer), 0x02014b50);
+    const method = buffer.readUInt16LE(pointer + 10);
+    const size = buffer.readUInt32LE(pointer + 20);
+    const nameLength = buffer.readUInt16LE(pointer + 28);
+    const extra = buffer.readUInt16LE(pointer + 30) + buffer.readUInt16LE(pointer + 32);
+    const local = buffer.readUInt32LE(pointer + 42);
+    const name = buffer.toString("utf8", pointer + 46, pointer + 46 + nameLength);
+    const dataStart = local + 30 + buffer.readUInt16LE(local + 26) + buffer.readUInt16LE(local + 28);
+    const raw = buffer.subarray(dataStart, dataStart + size);
+    entries.set(name, (method === 8 ? inflateRawSync(raw) : raw).toString("utf8"));
+    pointer += 46 + nameLength + extra;
+  }
+  return entries;
+}
+
+test("Word activation document references the registered add-in", async () => {
+  const { ACTIVATION_DOCUMENT, manifestIdentity } = await import("../scripts/lib/addin.mjs");
+  const { wordActivationDocx } = await import("../scripts/lib/word-activation.mjs");
+  const manifest = readFileSync(new URL("../office/manifest.xml", import.meta.url), "utf8");
+  const identity = manifestIdentity(manifest);
+  assert.match(identity.version, /^[1-9]/, "Office expects a manifest version of at least 1.0");
+
+  const entries = readZip(wordActivationDocx(identity));
+  assert.deepEqual([...entries.keys()].sort(), [
+    "[Content_Types].xml",
+    "_rels/.rels",
+    "word/document.xml",
+    "word/webextensions/_rels/taskpanes.xml.rels",
+    "word/webextensions/taskpanes.xml",
+    "word/webextensions/webextension1.xml",
+  ]);
+  const extension = entries.get("word/webextensions/webextension1.xml");
+  assert.match(extension, new RegExp(`<we:reference id="${identity.id}" version="${identity.version}" store="developer" storeType="Registry"/>`));
+  assert.match(entries.get("word/document.xml"), /MiniMath est activé dans Word/);
+  for (const [name, xml] of entries) assert.doesNotThrow(() => parseMathML(xml), `${name} is well-formed XML`);
+
+  // The installer hook and bundle config must name the same file.
+  const hooks = readFileSync(new URL("../src-tauri/windows/hooks.nsh", import.meta.url), "utf8");
+  const windowsConf = readFileSync(new URL("../src-tauri/tauri.windows.conf.json", import.meta.url), "utf8");
+  assert.ok(hooks.includes(`\\addin\\${ACTIVATION_DOCUMENT}"`));
+  assert.ok(windowsConf.includes(`"addin/${ACTIVATION_DOCUMENT}"`));
+  assert.throws(() => wordActivationDocx({ id: "x", version: "1.0" }), /Unexpected add-in id/);
 });
 
 test("unsupported constructs are reported, not dropped silently", () => {

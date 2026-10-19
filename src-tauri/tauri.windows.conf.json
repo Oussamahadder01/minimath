@@ -2,7 +2,8 @@
   "bundle": {
     "targets": ["nsis"],
     "resources": {
-      "binaries/node.exe": "node/node.exe"
+      "binaries/node.exe": "node/node.exe",
+      "addin/MiniMath dans Word.docx": "addin/MiniMath dans Word.docx"
     },
     "windows": {
       "nsis": {
