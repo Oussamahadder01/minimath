@@ -149,8 +149,11 @@ test("Word activation document references the registered add-in", async () => {
   // The installer hook and bundle config must name the same file.
   const hooks = readFileSync(new URL("../src-tauri/windows/hooks.nsh", import.meta.url), "utf8");
   const windowsConf = readFileSync(new URL("../src-tauri/tauri.windows.conf.json", import.meta.url), "utf8");
+  const shell = readFileSync(new URL("../src-tauri/src/main.rs", import.meta.url), "utf8");
   assert.ok(hooks.includes(`\\addin\\${ACTIVATION_DOCUMENT}"`));
   assert.ok(windowsConf.includes(`"addin/${ACTIVATION_DOCUMENT}"`));
+  assert.ok(shell.includes(`WORD_ACTIVATION_DOCUMENT: &str = "${ACTIVATION_DOCUMENT}"`), "--activate-word opens the bundled document");
+  assert.ok(!hooks.includes("READONLY"), "the installed document stays writable so upgrades can replace it");
   assert.throws(() => wordActivationDocx({ id: "x", version: "1.0" }), /Unexpected add-in id/);
 });
 
