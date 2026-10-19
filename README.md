@@ -73,13 +73,14 @@ Push to GitHub and two workflows run:
   pane to `https://<owner>.github.io/<repo>/`. One-time setup: Settings → Pages →
   Source: **GitHub Actions**. On free GitHub plans, Pages needs a public repository.
 
-The Mac apps are unsigned. On the first launch, macOS says the app "can't be
-opened" or "is damaged". After dragging MiniMath to Applications, run this once
-in Terminal:
+The Mac apps are ad-hoc signed, not signed with an Apple Developer ID, so
+macOS blocks the first launch. To allow it once without Terminal:
+- **macOS 15 or newer:** System Settings → Privacy & Security → **Open Anyway**.
+- **macOS 14 or older:** right-click the app → **Open**.
 
-```sh
-xattr -cr /Applications/MiniMath.app
-```
+If macOS reports the app as "damaged" instead, run
+`xattr -cr /Applications/MiniMath.app` in Terminal. A Developer ID
+certificate plus notarization would remove these steps entirely.
 
 ## Word add-in
 
