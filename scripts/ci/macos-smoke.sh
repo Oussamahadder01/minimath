@@ -52,7 +52,8 @@ echo "server pid $SERVER_PID"
 
 PORT=""
 for _ in $(seq 1 30); do
-  PORT=$(lsof -a -p "$SERVER_PID" -iTCP -sTCP:LISTEN -P -n 2>/dev/null | awk 'NR>1 {split($9,a,":"); print a[length(a)]; exit}')
+  # lsof exits 1 until the server listens; that must not trip `set -e`.
+  PORT=$(lsof -a -p "$SERVER_PID" -iTCP -sTCP:LISTEN -P -n 2>/dev/null | awk 'NR>1 {split($9,a,":"); print a[length(a)]; exit}' || true)
   [ -n "$PORT" ] && break
   sleep 1
 done
