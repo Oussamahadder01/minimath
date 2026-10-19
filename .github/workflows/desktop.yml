@@ -1,0 +1,81 @@
+name: Desktop apps
+
+# Builds the installers your friends download: Windows (.exe) and macOS
+# (.dmg for Apple Silicon and Intel). Find them under Actions → this run →
+# Artifacts.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows (x64)
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact: MiniMath-windows-x64
+            bundle: nsis/*.exe
+          - name: macOS (Apple Silicon)
+            os: macos-latest
+            target: aarch64-apple-darwin
+            artifact: MiniMath-macos-apple-silicon
+            bundle: dmg/*.dmg
+          - name: macOS (Intel)
+            os: macos-latest
+            target: x86_64-apple-darwin
+            artifact: MiniMath-macos-intel
+            bundle: dmg/*.dmg
+            node-arch: x64
+    runs-on: ${{ matrix.os }}
+    env:
+      # Where the Word add-in is published (see addin-site.yml).
+      MINIMATH_ADDIN_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+          key: ${{ matrix.target }}
+
+      - run: npm ci
+
+      - run: npm test
+
+      # The Intel app is cross-built on an Apple Silicon runner, so it must
+      # bundle an x64 Node.js instead of the runner's own.
+      - name: Fetch Intel Node.js runtime
+        if: matrix.node-arch == 'x64'
+        shell: bash
+        run: |
+          version=$(node -p process.version)
+          curl -fsSL "https://nodejs.org/dist/$version/node-$version-darwin-x64.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "MINIMATH_NODE_BINARY=$RUNNER_TEMP/node-$version-darwin-x64/bin/node" >> "$GITHUB_ENV"
+
+      - run: node scripts/prepare-desktop.mjs
+
+      - run: npx tauri build --target ${{ matrix.target }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: src-tauri/target/${{ matrix.target }}/release/bundle/${{ matrix.bundle }}
+          if-no-files-found: error

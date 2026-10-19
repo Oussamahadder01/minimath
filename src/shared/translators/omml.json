@@ -1,0 +1,74 @@
+{
+  "id": "omml",
+  "name": "Office Math (OMML)",
+  "order": 4,
+  "description": "Office Math Markup Language, the native equation format of Word and PowerPoint.",
+  "group": ["", ""],
+  "separateWords": "none",
+  "warnUnmappedCharacters": false,
+  "errorPlaceholder": "<m:r><m:t>?</m:t></m:r>",
+  "defaultFunction": "#text",
+  "textEscapes": { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" },
+  "elements": {
+    "math": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\">#*</m:oMath>",
+    "mrow": "#*",
+    "mstyle": "#*",
+    "mpadded": "#*",
+    "semantics": "#1",
+    "annotation": "",
+    "annotation-xml": "",
+    "mi": {
+      "template": "<m:r><m:t>#text</m:t></m:r>",
+      "variants": [
+        { "when": { "mathvariant": "bold" }, "template": "<m:r><m:rPr><m:sty m:val=\"b\"/></m:rPr><m:t>#text</m:t></m:r>" },
+        { "when": { "mathvariant": "double-struck" }, "template": "<m:r><m:rPr><m:scr m:val=\"double-struck\"/><m:sty m:val=\"p\"/></m:rPr><m:t>#text</m:t></m:r>" },
+        { "when": { "mathvariant": "script" }, "template": "<m:r><m:rPr><m:scr m:val=\"script\"/><m:sty m:val=\"p\"/></m:rPr><m:t>#text</m:t></m:r>" },
+        { "when": { "mathvariant": "fraktur" }, "template": "<m:r><m:rPr><m:scr m:val=\"fraktur\"/><m:sty m:val=\"p\"/></m:rPr><m:t>#text</m:t></m:r>" },
+        { "when": { "mathvariant": "normal" }, "template": "<m:r><m:rPr><m:sty m:val=\"p\"/></m:rPr><m:t>#text</m:t></m:r>" },
+        { "when": { "$multi": true }, "template": "<m:r><m:rPr><m:sty m:val=\"p\"/></m:rPr><m:t>#text</m:t></m:r>" }
+      ]
+    },
+    "mn": "<m:r><m:t>#text</m:t></m:r>",
+    "mo": {
+      "template": "<m:r><m:t>#text</m:t></m:r>",
+      "variants": [
+        { "when": { "$text": "⁡" }, "template": "" },
+        { "when": { "$text": "⁢" }, "template": "" },
+        { "when": { "$text": "⁣" }, "template": "" }
+      ]
+    },
+    "mtext": "<m:r><m:rPr><m:nor/></m:rPr><m:t xml:space=\"preserve\">#text</m:t></m:r>",
+    "ms": "<m:r><m:rPr><m:nor/></m:rPr><m:t xml:space=\"preserve\">&quot;#text&quot;</m:t></m:r>",
+    "mspace": "",
+    "msup": "<m:sSup><m:e>#1</m:e><m:sup>#2</m:sup></m:sSup>",
+    "msub": "<m:sSub><m:e>#1</m:e><m:sub>#2</m:sub></m:sSub>",
+    "msubsup": "<m:sSubSup><m:e>#1</m:e><m:sub>#2</m:sub><m:sup>#3</m:sup></m:sSubSup>",
+    "mfrac": {
+      "template": "<m:f><m:num>#1</m:num><m:den>#2</m:den></m:f>",
+      "variants": [
+        { "when": { "linethickness": "0" }, "template": "<m:f><m:fPr><m:type m:val=\"noBar\"/></m:fPr><m:num>#1</m:num><m:den>#2</m:den></m:f>" },
+        { "when": { "linethickness": "0px" }, "template": "<m:f><m:fPr><m:type m:val=\"noBar\"/></m:fPr><m:num>#1</m:num><m:den>#2</m:den></m:f>" }
+      ]
+    },
+    "msqrt": "<m:rad><m:radPr><m:degHide m:val=\"1\"/></m:radPr><m:deg/><m:e>#*</m:e></m:rad>",
+    "mroot": "<m:rad><m:deg>#2</m:deg><m:e>#1</m:e></m:rad>",
+    "munder": "<m:limLow><m:e>#1</m:e><m:lim>#2</m:lim></m:limLow>",
+    "mover": {
+      "template": "<m:limUpp><m:e>#1</m:e><m:lim>#2</m:lim></m:limUpp>",
+      "variants": [{ "when": { "$accent": 2 }, "template": "<m:acc><m:accPr><m:chr m:val=\"#acc2\"/></m:accPr><m:e>#1</m:e></m:acc>" }]
+    },
+    "munderover": "<m:limUpp><m:e><m:limLow><m:e>#1</m:e><m:lim>#2</m:lim></m:limLow></m:e><m:lim>#3</m:lim></m:limUpp>",
+    "mfenced": "<m:d><m:e>#*</m:e></m:d>",
+    "menclose": "<m:borderBox><m:e>#*</m:e></m:borderBox>",
+    "mphantom": "<m:phant><m:e>#*</m:e></m:phant>",
+    "mtable": "<m:m>#*</m:m>",
+    "mtr": "<m:mr>#*</m:mr>",
+    "mtd": "<m:e>#*</m:e>"
+  },
+  "functions": {},
+  "accents": {
+    "^": "̂", "ˆ": "̂", "¯": "̅", "‾": "̅", "→": "⃗", "⃗": "⃗",
+    "˙": "̇", "¨": "̈", "~": "̃", "˜": "̃", "˘": "̆", "ˇ": "̌"
+  },
+  "chars": {}
+}

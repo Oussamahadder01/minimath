@@ -1,0 +1,92 @@
+{
+  "id": "speech",
+  "name": "Spoken English",
+  "order": 3,
+  "description": "Plain-English readout for alt text and screen readers.",
+  "group": ["", ""],
+  "separateWords": "none",
+  "collapseWhitespace": true,
+  "warnUnmappedCharacters": false,
+  "errorPlaceholder": " unknown expression ",
+  "defaultFunction": " #text ",
+  "textEscapes": {},
+  "elements": {
+    "math": "#*",
+    "mrow": "#*",
+    "mstyle": "#*",
+    "mpadded": "#*",
+    "semantics": "#1",
+    "annotation": "",
+    "annotation-xml": "",
+    "mi": { "template": " #chars ", "variants": [{ "when": { "$multi": true }, "template": " #fn " }] },
+    "mn": " #chars ",
+    "mo": "#chars",
+    "mtext": " #text ",
+    "ms": " #text ",
+    "mspace": " ",
+    "msup": {
+      "template": " #1 to the power #2 end power ",
+      "variants": [
+        { "when": { "$childText": { "2": "2" } }, "template": " #1 squared " },
+        { "when": { "$childText": { "2": "3" } }, "template": " #1 cubed " },
+        { "when": { "$childText": { "2": "′" } }, "template": " #1 prime " }
+      ]
+    },
+    "msub": " #1 sub #2 ",
+    "msubsup": " #1 sub #2 to the power #3 end power ",
+    "mfrac": " the fraction #1 over #2 end fraction ",
+    "msqrt": " the square root of #* end root ",
+    "mroot": " the root of order #2 of #1 end root ",
+    "munder": {
+      "template": " #1 with #2 below ",
+      "variants": [{ "when": { "$baseOperator": true }, "template": " #1 as #2 " }]
+    },
+    "mover": {
+      "template": " #1 with #2 above ",
+      "variants": [{ "when": { "$accent": 2 }, "template": " #1 #acc2 " }]
+    },
+    "munderover": {
+      "template": " #1 with #2 below and #3 above ",
+      "variants": [{ "when": { "$baseOperator": true }, "template": " #1 from #2 to #3 of " }]
+    },
+    "mfenced": { "template": " open paren #* close paren ", "join": " comma " },
+    "menclose": " box containing #* end box ",
+    "mphantom": "",
+    "mtable": { "template": " the matrix with rows #* end matrix ", "join": " next row " },
+    "mtr": { "template": "#*", "join": " comma " },
+    "mtd": "#*"
+  },
+  "functions": {
+    "sin": " sine ", "cos": " cosine ", "tan": " tangent ", "cot": " cotangent ",
+    "sec": " secant ", "csc": " cosecant ", "log": " log ", "ln": " natural log ",
+    "exp": " exponential ", "lim": " the limit ", "max": " the maximum ", "min": " the minimum ",
+    "det": " the determinant "
+  },
+  "accents": {
+    "^": "hat", "ˆ": "hat", "¯": "bar", "‾": "bar", "→": "vector", "⃗": "vector",
+    "˙": "dot", "¨": "double dot", "~": "tilde", "˜": "tilde"
+  },
+  "chars": {
+    "⁡": " ", "⁢": " ", "⁣": " ", " ": " ",
+    "+": " plus ", "-": " minus ", "−": " minus ", "=": " equals ", "×": " times ", "⋅": " times ",
+    "·": " times ", "*": " times ", "÷": " divided by ", "/": " divided by ", "±": " plus or minus ",
+    "∓": " minus or plus ", "<": " is less than ", ">": " is greater than ",
+    "≤": " is less than or equal to ", "≥": " is greater than or equal to ", "≠": " is not equal to ",
+    "≈": " is approximately equal to ", "≡": " is equivalent to ", "∝": " is proportional to ",
+    "∞": " infinity ", "→": " approaches ", "⇒": " implies ", "⇔": " if and only if ",
+    "∈": " is an element of ", "∉": " is not an element of ", "⊂": " is a subset of ",
+    "∪": " union ", "∩": " intersection ", "∅": " the empty set ", "∀": " for all ", "∃": " there exists ",
+    "∑": " the sum ", "∏": " the product ", "∫": " the integral ", "∮": " the contour integral ",
+    "∂": " partial ", "∇": " del ", "!": " factorial ", "′": " prime ", "°": " degrees ",
+    "(": " open paren ", ")": " close paren ", "[": " open bracket ", "]": " close bracket ",
+    "{": " open brace ", "}": " close brace ", "|": " vertical bar ", ",": " comma ", "…": " dot dot dot ",
+    "ℝ": " the real numbers ", "ℕ": " the natural numbers ", "ℤ": " the integers ",
+    "α": " alpha ", "β": " beta ", "γ": " gamma ", "δ": " delta ", "ε": " epsilon ", "ζ": " zeta ",
+    "η": " eta ", "θ": " theta ", "ι": " iota ", "κ": " kappa ", "λ": " lambda ", "μ": " mu ",
+    "ν": " nu ", "ξ": " xi ", "π": " pi ", "ρ": " rho ", "σ": " sigma ", "τ": " tau ",
+    "υ": " upsilon ", "φ": " phi ", "ϕ": " phi ", "χ": " chi ", "ψ": " psi ", "ω": " omega ",
+    "Γ": " capital gamma ", "Δ": " capital delta ", "Θ": " capital theta ", "Λ": " capital lambda ",
+    "Π": " capital pi ", "Σ": " capital sigma ", "Φ": " capital phi ", "Ψ": " capital psi ",
+    "Ω": " capital omega "
+  }
+}

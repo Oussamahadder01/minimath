@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MiniMath</title>
+    <link rel="icon" type="image/png" href="/web/icon-32.png" />
+    <link rel="stylesheet" href="/web/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="logo" aria-hidden="true">√x</span> MiniMath</div>
+      <div class="license" id="license-area">
+        <span class="badge" id="license-badge">Checking license…</span>
+        <button type="button" id="license-button" class="ghost">Activate…</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="palette" aria-label="Templates and symbols" id="palette"></section>
+
+      <section class="editor-card">
+        <math-field id="editor" aria-label="Equation editor"></math-field>
+        <div class="style-row">
+          <label>Style
+            <select id="preset"></select>
+          </label>
+          <label>Size
+            <input id="size" type="number" min="4" max="144" step="1" value="12" /> pt
+          </label>
+          <label>Color <input id="color" type="color" value="#000000" /></label>
+          <label class="check"><input id="display" type="checkbox" checked /> Display</label>
+        </div>
+      </section>
+
+      <section class="preview-card">
+        <h2>Preview <small>(exactly what exports look like)</small></h2>
+        <div id="preview" class="preview" aria-live="polite"></div>
+      </section>
+
+      <section class="actions" aria-label="Export">
+        <button type="button" id="copy-word" class="primary" title="Paste into Word as an editable equation">Copy for Word</button>
+        <button type="button" id="copy-image">Copy image</button>
+        <button type="button" id="copy-latex">Copy LaTeX</button>
+        <span class="sep"></span>
+        <button type="button" id="save-png">Save PNG…</button>
+        <button type="button" id="save-svg">Save SVG…</button>
+        <span class="sep"></span>
+        <button type="button" id="open-eq">Open .mmeq…</button>
+        <button type="button" id="save-eq">Save .mmeq…</button>
+        <input type="file" id="open-input" accept=".mmeq,application/json" hidden />
+      </section>
+
+      <section class="outputs-card">
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <textarea id="output" readonly spellcheck="false" aria-label="Translated output"></textarea>
+        <ul id="output-issues" class="issues"></ul>
+        <div class="output-actions">
+          <button type="button" id="copy-output">Copy this output</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="statusbar">
+      <span id="status">Ready.</span>
+      <label class="check telemetry"><input type="checkbox" id="telemetry" /> Share anonymous usage statistics</label>
+    </footer>
+
+    <dialog id="license-dialog">
+      <form method="dialog" id="license-form">
+        <h2>MiniMath license</h2>
+        <p id="license-detail"></p>
+        <div id="activate-fields">
+          <label for="product-key">Product key</label>
+          <input id="product-key" placeholder="MM1-XXXXXX-XXXXX" autocomplete="off" spellcheck="false" />
+          <p class="hint">Keys are issued with <code>npm run issue-key</code> and checked by the license service.</p>
+        </div>
+        <p id="license-error" class="error" role="alert"></p>
+        <menu>
+          <button type="button" id="deactivate" class="ghost">Deactivate this machine</button>
+          <button value="cancel" formnovalidate class="ghost">Close</button>
+          <button type="button" id="activate" class="primary">Activate</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script type="module" src="/web/app.js"></script>
+  </body>
+</html>

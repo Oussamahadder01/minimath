@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "MiniMath",
+  "version": "0.1.0",
+  "identifier": "com.minimath.desktop",
+  "build": {
+    "frontendDist": "../web/boot"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "resources": {
+      "../bin/minimath-server.mjs": "app/bin/minimath-server.mjs",
+      "../src/": "app/src/",
+      "../web/": "app/web/",
+      "../office/": "app/office/",
+      "../prefs/": "app/prefs/",
+      "../config/": "app/config/",
+      "../package.json": "app/package.json",
+      "../node_modules/mathlive/": "app/node_modules/mathlive/",
+      "../node_modules/mathjax-full/js/": "app/node_modules/mathjax-full/js/",
+      "../node_modules/mathjax-full/package.json": "app/node_modules/mathjax-full/package.json",
+      "../node_modules/mhchemparser/": "app/node_modules/mhchemparser/",
+      "../node_modules/mj-context-menu/": "app/node_modules/mj-context-menu/",
+      "../node_modules/speech-rule-engine/": "app/node_modules/speech-rule-engine/",
+      "../node_modules/esm/": "app/node_modules/esm/",
+      "addin/manifest.xml": "addin/manifest.xml"
+    }
+  }
+}

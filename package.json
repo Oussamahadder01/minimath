@@ -1,0 +1,30 @@
+{
+  "name": "minimath",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A small MathType-style equation editor: MathLive editing, rule-driven translators, clipboard/Word export, and a separate license helper process.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "scripts": {
+    "start": "node bin/minimath-server.mjs",
+    "service": "node bin/license-service.mjs",
+    "keys": "node scripts/keys.mjs",
+    "issue-key": "node scripts/issue-key.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "addin:build": "node scripts/build-addin.mjs",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
+    "desktop": "node scripts/prepare-desktop.mjs && tauri dev",
+    "desktop:build": "node scripts/prepare-desktop.mjs && tauri build"
+  },
+  "dependencies": {
+    "mathjax-full": "3.2.2",
+    "mathlive": "0.111.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.3"
+  }
+}

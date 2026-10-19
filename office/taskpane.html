@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MiniMath for Word</title>
+    <link rel="icon" type="image/png" href="../web/icon-32.png" />
+    <link rel="stylesheet" href="../web/styles.css" />
+    <style>
+      body { padding: 12px; gap: 10px; }
+      .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      math-field { font-size: 22px; }
+      #mode { font-size: 0.85rem; color: var(--muted); }
+    </style>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  </head>
+  <body>
+    <div class="brand"><span class="logo" aria-hidden="true">√x</span> MiniMath</div>
+    <p id="mode">Type an equation, then insert it at the cursor.</p>
+    <math-field id="editor" aria-label="Equation editor"></math-field>
+    <div class="row">
+      <label class="check"><input id="display" type="checkbox" checked /> Display (own line)</label>
+    </div>
+    <div class="row">
+      <button type="button" id="insert" class="primary">Insert equation</button>
+      <button type="button" id="new" class="ghost">New</button>
+    </div>
+    <p id="status" role="status"></p>
+    <script type="module" src="./taskpane.js"></script>
+  </body>
+</html>

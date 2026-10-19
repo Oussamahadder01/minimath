@@ -1,0 +1,94 @@
+{
+  "id": "asciimath",
+  "name": "AsciiMath",
+  "order": 2,
+  "description": "AsciiMath notation, as used by MathJax and many LMS editors.",
+  "group": ["(", ")"],
+  "separateWords": "letters",
+  "warnUnmappedCharacters": false,
+  "errorPlaceholder": "?",
+  "defaultFunction": "text(#text)",
+  "textEscapes": {},
+  "elements": {
+    "math": "#*",
+    "mrow": "#*",
+    "mstyle": "#*",
+    "mpadded": "#*",
+    "semantics": "#1",
+    "annotation": "",
+    "annotation-xml": "",
+    "mi": {
+      "template": "#chars",
+      "variants": [
+        { "when": { "mathvariant": "bold" }, "template": "bb(#chars)" },
+        { "when": { "mathvariant": "double-struck" }, "template": "bbb(#text)" },
+        { "when": { "mathvariant": "script" }, "template": "cc(#text)" },
+        { "when": { "$multi": true }, "template": "#fn" }
+      ]
+    },
+    "mn": "#chars",
+    "mo": "#chars",
+    "mtext": "text(#text)",
+    "ms": "text(\"#text\")",
+    "mspace": " ",
+    "msup": "#g1^#g2",
+    "msub": "#g1_#g2",
+    "msubsup": "#g1_#g2^#g3",
+    "mfrac": "#g1/#g2",
+    "msqrt": "sqrt#g*",
+    "mroot": "root(#2)(#1)",
+    "munder": {
+      "template": "underset(#2)(#1)",
+      "variants": [{ "when": { "$baseOperator": true }, "template": "#1_#g2" }]
+    },
+    "mover": {
+      "template": "overset(#2)(#1)",
+      "variants": [
+        { "when": { "$accent": 2 }, "template": "#acc2#g1" },
+        { "when": { "$baseOperator": true }, "template": "#1^#g2" }
+      ]
+    },
+    "munderover": {
+      "template": "overset(#3)(underset(#2)(#1))",
+      "variants": [{ "when": { "$baseOperator": true }, "template": "#1_#g2^#g3" }]
+    },
+    "mfenced": { "template": "(#*)", "join": "," },
+    "menclose": {
+      "template": "#g*",
+      "variants": [{ "when": { "notation": "updiagonalstrike" }, "template": "cancel(#*)" }]
+    },
+    "mphantom": "",
+    "mtable": { "template": "{:#*:}", "join": "," },
+    "mtr": { "template": "(#*)", "join": "," },
+    "mtd": "#*"
+  },
+  "functions": {
+    "sin": "sin", "cos": "cos", "tan": "tan", "cot": "cot", "sec": "sec", "csc": "csc",
+    "arcsin": "arcsin", "arccos": "arccos", "arctan": "arctan",
+    "sinh": "sinh", "cosh": "cosh", "tanh": "tanh",
+    "log": "log", "ln": "ln", "exp": "exp", "lim": "lim",
+    "max": "max", "min": "min", "det": "det", "gcd": "gcd", "dim": "dim"
+  },
+  "accents": {
+    "^": "hat", "ˆ": "hat", "¯": "bar", "‾": "bar", "→": "vec", "⃗": "vec",
+    "˙": "dot", "¨": "ddot", "~": "tilde", "˜": "tilde"
+  },
+  "chars": {
+    "⁡": "", "⁢": "", "⁣": "", " ": " ",
+    "−": "-", "±": "+-", "∓": "-+", "×": "xx", "÷": "-:", "⋅": "*", "·": "*", "∘": "@", "∗": "**",
+    "≤": "<=", "≥": ">=", "≠": "!=", "≈": "~~", "≡": "-=", "≅": "~=", "∼": "~", "∝": "prop",
+    "∈": "in", "∉": "!in", "⊂": "sub", "⊆": "sube", "⊃": "sup", "⊇": "supe", "∪": "uu", "∩": "nn", "∅": "O/",
+    "∀": "AA", "∃": "EE", "¬": "neg", "∧": "^^", "∨": "vv",
+    "→": "->", "←": "larr", "↔": "harr", "⇒": "=>", "⇔": "<=>", "↦": "|->",
+    "∑": "sum", "∏": "prod", "∫": "int", "∮": "oint", "∂": "del", "∇": "grad", "∞": "oo",
+    "ℝ": "RR", "ℕ": "NN", "ℤ": "ZZ", "ℚ": "QQ", "ℂ": "CC",
+    "…": "...", "⋯": "cdots", "⋮": "vdots", "⋱": "ddots", "′": "'", "∠": "/_", "△": "/_\\",
+    "⟨": "(:", "⟩": ":)", "⌊": "|__", "⌋": "__|", "⌈": "|~", "⌉": "~|",
+    "α": "alpha", "β": "beta", "γ": "gamma", "δ": "delta", "ε": "epsilon", "ϵ": "epsilon",
+    "ζ": "zeta", "η": "eta", "θ": "theta", "ϑ": "vartheta", "ι": "iota", "κ": "kappa",
+    "λ": "lambda", "μ": "mu", "ν": "nu", "ξ": "xi", "π": "pi", "ρ": "rho", "σ": "sigma",
+    "τ": "tau", "υ": "upsilon", "φ": "phi", "ϕ": "phi", "χ": "chi", "ψ": "psi", "ω": "omega",
+    "Γ": "Gamma", "Δ": "Delta", "Θ": "Theta", "Λ": "Lambda", "Ξ": "Xi", "Π": "Pi",
+    "Σ": "Sigma", "Φ": "Phi", "Ψ": "Psi", "Ω": "Omega"
+  }
+}

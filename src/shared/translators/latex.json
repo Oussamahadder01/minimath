@@ -1,0 +1,130 @@
+{
+  "id": "latex",
+  "name": "LaTeX",
+  "order": 1,
+  "description": "LaTeX math (amsmath). Paste between $...$ or \\[...\\].",
+  "group": ["{", "}"],
+  "separateWords": "controlWords",
+  "warnUnmappedCharacters": true,
+  "errorPlaceholder": "\\text{?}",
+  "defaultFunction": "\\operatorname{#text}",
+  "textEscapes": {
+    "\\": "\\textbackslash{}",
+    "{": "\\{",
+    "}": "\\}",
+    "$": "\\$",
+    "&": "\\&",
+    "#": "\\#",
+    "^": "\\^{}",
+    "_": "\\_",
+    "%": "\\%",
+    "~": "\\~{}"
+  },
+  "elements": {
+    "math": "#*",
+    "mrow": "#*",
+    "mstyle": "#*",
+    "mpadded": "#*",
+    "semantics": "#1",
+    "annotation": "",
+    "annotation-xml": "",
+    "mi": {
+      "template": "#chars",
+      "variants": [
+        { "when": { "mathvariant": "bold" }, "template": "\\mathbf{#chars}" },
+        { "when": { "mathvariant": "double-struck" }, "template": "\\mathbb{#text}" },
+        { "when": { "mathvariant": "script" }, "template": "\\mathcal{#text}" },
+        { "when": { "mathvariant": "fraktur" }, "template": "\\mathfrak{#text}" },
+        { "when": { "mathvariant": "normal", "$multi": false }, "template": "\\mathrm{#chars}" },
+        { "when": { "$multi": true }, "template": "#fn" }
+      ]
+    },
+    "mn": "#chars",
+    "mo": "#chars",
+    "mtext": "\\text{#text}",
+    "ms": "\\text{\"#text\"}",
+    "mspace": "\\,",
+    "msup": "#g1^{#2}",
+    "msub": "#g1_{#2}",
+    "msubsup": "#g1_{#2}^{#3}",
+    "mfrac": {
+      "template": "\\frac{#1}{#2}",
+      "variants": [
+        { "when": { "linethickness": "0" }, "template": "\\genfrac{}{}{0pt}{}{#1}{#2}" },
+        { "when": { "linethickness": "0px" }, "template": "\\genfrac{}{}{0pt}{}{#1}{#2}" }
+      ]
+    },
+    "msqrt": "\\sqrt{#*}",
+    "mroot": "\\sqrt[#2]{#1}",
+    "munder": {
+      "template": "\\underset{#2}{#1}",
+      "variants": [{ "when": { "$baseOperator": true }, "template": "#g1_{#2}" }]
+    },
+    "mover": {
+      "template": "\\overset{#2}{#1}",
+      "variants": [
+        { "when": { "$accent": 2 }, "template": "#acc2{#1}" },
+        { "when": { "$baseOperator": true }, "template": "#g1^{#2}" }
+      ]
+    },
+    "munderover": {
+      "template": "\\overset{#3}{\\underset{#2}{#1}}",
+      "variants": [{ "when": { "$baseOperator": true }, "template": "#g1_{#2}^{#3}" }]
+    },
+    "mfenced": { "template": "\\left(#*\\right)", "join": "," },
+    "menclose": {
+      "template": "\\boxed{#*}",
+      "variants": [
+        { "when": { "notation": "updiagonalstrike" }, "template": "\\cancel{#*}" },
+        { "when": { "notation": "top" }, "template": "\\overline{#*}" },
+        { "when": { "notation": "bottom" }, "template": "\\underline{#*}" }
+      ]
+    },
+    "mphantom": "\\phantom{#*}",
+    "mtable": { "template": "\\begin{matrix}#*\\end{matrix}", "join": " \\\\ " },
+    "mtr": { "template": "#*", "join": " & " },
+    "mtd": "#*"
+  },
+  "functions": {
+    "sin": "\\sin", "cos": "\\cos", "tan": "\\tan", "cot": "\\cot", "sec": "\\sec", "csc": "\\csc",
+    "arcsin": "\\arcsin", "arccos": "\\arccos", "arctan": "\\arctan",
+    "sinh": "\\sinh", "cosh": "\\cosh", "tanh": "\\tanh", "coth": "\\coth",
+    "log": "\\log", "ln": "\\ln", "lg": "\\lg", "exp": "\\exp",
+    "lim": "\\lim", "limsup": "\\limsup", "liminf": "\\liminf",
+    "max": "\\max", "min": "\\min", "sup": "\\sup", "inf": "\\inf",
+    "det": "\\det", "dim": "\\dim", "ker": "\\ker", "gcd": "\\gcd", "deg": "\\deg",
+    "arg": "\\arg", "hom": "\\hom", "Pr": "\\Pr"
+  },
+  "accents": {
+    "^": "\\hat", "ˆ": "\\hat", "¯": "\\bar", "‾": "\\overline", "→": "\\vec", "⃗": "\\vec",
+    "˙": "\\dot", "¨": "\\ddot", "~": "\\tilde", "˜": "\\tilde", "˘": "\\breve", "ˇ": "\\check",
+    "⏞": "\\overbrace"
+  },
+  "chars": {
+    "\u2061": "", "\u2062": "", "\u2063": "", "\u00a0": "\\ ",
+    "{": "\\{", "}": "\\}", "%": "\\%", "#": "\\#", "&": "\\&", "_": "\\_", "$": "\\$",
+    "−": "-", "∗": "\\ast", "±": "\\pm", "∓": "\\mp", "×": "\\times", "÷": "\\div",
+    "⋅": "\\cdot", "·": "\\cdot", "∘": "\\circ", "•": "\\bullet",
+    "≤": "\\le", "≥": "\\ge", "≠": "\\ne", "≈": "\\approx", "≡": "\\equiv", "≅": "\\cong",
+    "∼": "\\sim", "≃": "\\simeq", "∝": "\\propto", "≪": "\\ll", "≫": "\\gg", "⊥": "\\perp", "∥": "\\parallel",
+    "∈": "\\in", "∉": "\\notin", "∋": "\\ni", "⊂": "\\subset", "⊆": "\\subseteq", "⊃": "\\supset",
+    "⊇": "\\supseteq", "∪": "\\cup", "∩": "\\cap", "∖": "\\setminus", "∅": "\\emptyset",
+    "∀": "\\forall", "∃": "\\exists", "¬": "\\neg", "∧": "\\land", "∨": "\\lor",
+    "→": "\\to", "←": "\\leftarrow", "↔": "\\leftrightarrow", "⇒": "\\Rightarrow", "⇐": "\\Leftarrow",
+    "⇔": "\\Leftrightarrow", "↦": "\\mapsto", "↑": "\\uparrow", "↓": "\\downarrow",
+    "∑": "\\sum", "∏": "\\prod", "∐": "\\coprod", "∫": "\\int", "∬": "\\iint", "∭": "\\iiint", "∮": "\\oint",
+    "⋃": "\\bigcup", "⋂": "\\bigcap",
+    "∂": "\\partial", "∇": "\\nabla", "∞": "\\infty", "ℏ": "\\hbar", "ℓ": "\\ell", "ℵ": "\\aleph",
+    "ℝ": "\\mathbb{R}", "ℕ": "\\mathbb{N}", "ℤ": "\\mathbb{Z}", "ℚ": "\\mathbb{Q}", "ℂ": "\\mathbb{C}",
+    "…": "\\ldots", "⋯": "\\cdots", "⋮": "\\vdots", "⋱": "\\ddots",
+    "′": "'", "″": "''", "°": "^\\circ", "∠": "\\angle", "△": "\\triangle",
+    "‖": "\\|", "⟨": "\\langle", "⟩": "\\rangle", "⌊": "\\lfloor", "⌋": "\\rfloor", "⌈": "\\lceil", "⌉": "\\rceil",
+    "α": "\\alpha", "β": "\\beta", "γ": "\\gamma", "δ": "\\delta", "ε": "\\varepsilon", "ϵ": "\\epsilon",
+    "ζ": "\\zeta", "η": "\\eta", "θ": "\\theta", "ϑ": "\\vartheta", "ι": "\\iota", "κ": "\\kappa",
+    "λ": "\\lambda", "μ": "\\mu", "ν": "\\nu", "ξ": "\\xi", "π": "\\pi", "ϖ": "\\varpi", "ρ": "\\rho",
+    "ϱ": "\\varrho", "σ": "\\sigma", "ς": "\\varsigma", "τ": "\\tau", "υ": "\\upsilon", "φ": "\\varphi",
+    "ϕ": "\\phi", "χ": "\\chi", "ψ": "\\psi", "ω": "\\omega",
+    "Γ": "\\Gamma", "Δ": "\\Delta", "Θ": "\\Theta", "Λ": "\\Lambda", "Ξ": "\\Xi", "Π": "\\Pi",
+    "Σ": "\\Sigma", "Υ": "\\Upsilon", "Φ": "\\Phi", "Ψ": "\\Psi", "Ω": "\\Omega"
+  }
+}

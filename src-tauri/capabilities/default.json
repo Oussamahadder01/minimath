@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "The editor page served by the MiniMath server on a loopback port.",
+  "windows": ["main"],
+  "remote": {
+    "urls": ["http://127.0.0.1:*", "http://127.0.0.1:*/*"]
+  },
+  "permissions": ["core:default", "dialog:default", "allow-copy-equation", "allow-save-file", "allow-open-file"]
+}
