@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 export const PROJECT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 export const APP_NAME = "MiniMath";
-export const APP_VERSION = "0.1.1";
+export const APP_VERSION = "0.1.2";
 
 function userDataRoot() {
   if (process.platform === "win32") return process.env.APPDATA ?? join(homedir(), "AppData", "Roaming");

@@ -177,6 +177,25 @@ test("render, translate and request guards", async () => {
   assert.equal((await fetch(`${url}/vendor/mathlive/mathlive.min.mjs`)).status, 200);
 });
 
+test("theme setting is validated and survives a restart", async () => {
+  const home = join(workDir, "home-settings");
+  const first = await startApp({ MINIMATH_HOME: home });
+  // The server process reads MINIMATH_HOME itself (in tests: this process).
+  process.env.MINIMATH_HOME = home;
+  try {
+    assert.deepEqual((await first.call("GET", "/api/settings")).body, { theme: "system" });
+    assert.deepEqual((await first.call("POST", "/api/settings", { theme: "dark" })).body, { theme: "dark" });
+    const bad = await first.call("POST", "/api/settings", { theme: "purple" });
+    assert.equal(bad.status, 400);
+    assert.match(bad.body.error.message, /theme must be one of/);
+    const second = await startApp({ MINIMATH_HOME: home });
+    assert.deepEqual((await second.call("GET", "/api/settings")).body, { theme: "dark" });
+    assert.deepEqual(JSON.parse(await readFile(join(home, "settings.json"), "utf8")), { theme: "dark" });
+  } finally {
+    delete process.env.MINIMATH_HOME;
+  }
+});
+
 test("telemetry is opt-in and reaches the service", async () => {
   const { call } = await startApp({ MINIMATH_HOME: join(workDir, "home-telemetry") });
   assert.equal((await call("GET", "/api/telemetry")).body.enabled, false);

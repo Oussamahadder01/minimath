@@ -1,6 +1,6 @@
 {
   "name": "minimath",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "A small MathType-style equation editor: MathLive editing, rule-driven translators, clipboard/Word export, and a separate license helper process.",
   "type": "module",

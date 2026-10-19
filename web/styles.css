@@ -14,8 +14,10 @@
   color-scheme: light;
 }
 
+/* Dark theme: follows the system unless the user picked "light", or forced
+   with data-theme="dark" (see the theme selector in the top bar). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #15171b;
     --card: #1e2126;
     --text: #e6e8eb;
@@ -27,6 +29,19 @@
     --warn: #fdb022;
     color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --bg: #15171b;
+  --card: #1e2126;
+  --text: #e6e8eb;
+  --muted: #9aa1ab;
+  --border: #343941;
+  --accent: #5b8def;
+  --danger: #f97066;
+  --ok: #47cd89;
+  --warn: #fdb022;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -57,7 +72,8 @@ body {
   background: var(--accent); color: var(--accent-text); font-size: 0.85rem; font-style: italic;
 }
 
-.license { display: flex; align-items: center; gap: 8px; }
+.license { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.theme-picker { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--muted); }
 .badge {
   font-size: 0.85rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted);
 }
@@ -108,12 +124,16 @@ math-field:focus-within { outline: 2px solid var(--accent); outline-offset: 1px;
 .style-row input[type="number"] { width: 64px; }
 label.check { display: inline-flex; gap: 6px; align-items: center; }
 
+/* The preview is a sheet of paper in every theme: equations are rendered in
+   their export color (black by default), exactly as they will look in a
+   document. The faint checkerboard marks the transparent image background. */
 .preview {
   min-height: 80px; display: flex; align-items: center; justify-content: center; overflow-x: auto;
-  background: repeating-conic-gradient(#0000000a 0% 25%, transparent 0% 50%) 0 0 / 16px 16px;
+  background: #ffffff repeating-conic-gradient(#0000000a 0% 25%, transparent 0% 50%) 0 0 / 16px 16px;
+  border: 1px solid var(--border);
   border-radius: 8px; padding: 12px;
 }
-.preview .error { color: var(--danger); font-size: 0.9rem; }
+.preview .error { color: #b42318; font-size: 0.9rem; }
 
 .tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
 .tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }

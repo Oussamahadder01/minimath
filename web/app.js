@@ -502,6 +502,33 @@ async function deactivate() {
   }
 }
 
+// ------------------------------------------------------------------ theme
+
+function applyTheme(theme) {
+  if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+  else delete document.documentElement.dataset.theme;
+  $("theme").value = theme;
+  // Cache for the pre-paint script in index.html (the saved setting is authoritative).
+  try {
+    localStorage.setItem("minimath-theme", theme);
+  } catch {
+    // Storage may be unavailable; the server-side setting still applies.
+  }
+}
+
+function wireTheme(initial) {
+  applyTheme(initial);
+  $("theme").addEventListener("change", async () => {
+    const theme = $("theme").value;
+    applyTheme(theme);
+    try {
+      await api("POST", "/api/settings", { theme });
+    } catch (error) {
+      setStatus(`Theme not saved: ${error.message}`, "error");
+    }
+  });
+}
+
 // ------------------------------------------------------------------ boot
 
 const editor = $("editor");
@@ -560,14 +587,16 @@ async function boot() {
   });
 
   try {
-    const [{ translators }, { presets }, consent] = await Promise.all([
+    const [{ translators }, { presets }, consent, settings] = await Promise.all([
       api("GET", "/api/translators"),
       api("GET", "/api/prefs"),
       api("GET", "/api/telemetry"),
+      api("GET", "/api/settings"),
     ]);
     state.translators = translators;
     state.presets = presets;
     telemetry.checked = consent.enabled;
+    wireTheme(settings.theme);
   } catch (error) {
     setStatus(`Could not reach the MiniMath server: ${error.message}`, "error");
     return;

@@ -6,11 +6,25 @@
     <title>MiniMath</title>
     <link rel="icon" type="image/png" href="/web/icon-32.png" />
     <link rel="stylesheet" href="/web/styles.css" />
+    <script>
+      // Apply the last theme before first paint; app.js then loads the saved setting.
+      try {
+        const theme = localStorage.getItem("minimath-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
   </head>
   <body>
     <header class="topbar">
       <div class="brand"><span class="logo" aria-hidden="true">√x</span> MiniMath</div>
       <div class="license" id="license-area">
+        <label class="theme-picker">Theme
+          <select id="theme">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
         <span class="badge" id="license-badge">Checking license…</span>
         <button type="button" id="license-button" class="ghost">Activate…</button>
       </div>

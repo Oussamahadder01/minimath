@@ -12,6 +12,7 @@ import { parsePrefs } from "../shared/eqfile.mjs";
 import { MathMLParseError } from "../shared/mathml.mjs";
 import { translateMathML, validateRuleSet } from "../shared/translator.mjs";
 import { HelperClient, HelperReplyError, HelperUnavailableError } from "./helper-client.mjs";
+import { loadSettings, parseSettings, saveSettings } from "./settings.mjs";
 
 const HELPER_ERROR_STATUS = {
   helper_unavailable: 503,
@@ -146,6 +147,12 @@ export async function createApp({ helperEnv = process.env } = {}) {
       })),
     }),
     "GET /api/prefs": async () => ({ presets }),
+    "GET /api/settings": async () => loadSettings(),
+    "POST /api/settings": async (body) => {
+      const parsed = parseSettings({ ...(await loadSettings()), ...(body ?? {}) });
+      if (!parsed.ok) throw new ApiError(400, "invalid_request", parsed.error);
+      return saveSettings(parsed.value);
+    },
 
     "POST /api/translate": async (body) => {
       const rules = translators.get(body?.translator);
